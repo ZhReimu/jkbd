@@ -1,9 +1,11 @@
 package com.mrx.mybatis.interfaces
 
+import kotlin.reflect.KClass
+
 /**
  * @author Mr.X
  * @since 2022-05-08-0008
  **/
-@Target(AnnotationTarget.CLASS)
+@Target(AnnotationTarget.FIELD)
 @Retention(AnnotationRetention.RUNTIME)
-annotation class Decode
+annotation class Decode(val type: KClass<*> = ByteArray::class)

@@ -1,5 +1,6 @@
 package com.mrx.jkbd.entity
 
+import com.mrx.mybatis.interfaces.Decode
 import java.io.Serializable
 import java.nio.charset.StandardCharsets
 import kotlin.reflect.KMutableProperty
@@ -32,16 +33,38 @@ class Question : Serializable {
     var M: Long = 0
     var sort: Long = 0
     var supreme: Long = 0
+
+    @Decode
     var question: ByteArray? = null
+
+    @Decode
     var explain: ByteArray? = null
+
+    @Decode
     var conciseExplain: ByteArray? = null
+
+    @Decode
     var keywords: ByteArray? = null
+
+    @Decode
     var assuredKeywords: ByteArray? = null
+
+    @Decode
     var illiteracyExplain: ByteArray? = null
+
+    @Decode
     var illiteracyKeywords: ByteArray? = null
+
+    @Decode
     var knackKeyword: ByteArray? = null
+
+    @Decode
     var knackImgUrl: ByteArray? = null
+
+    @Decode
     var knackDetail: ByteArray? = null
+
+    @Decode
     var knackVoiceTxt: ByteArray? = null
 
     fun getDecodedAnswer(): Char {
@@ -67,8 +90,13 @@ class Question : Serializable {
         val sb = StringBuilder("Question(")
         for (member in this::class.java.declaredFields) {
             sb.append(member.name).append("=")
-            if (member.type.isArray) {
-                sb.append(decode(member.get(this) as ByteArray?))
+            if (member.isAnnotationPresent(Decode::class.java)) {
+                // TODO: 2022-05-08-0008 Mr.X 处理其它可能的类型, 虽然大概不会有其它类型
+                member.getAnnotation(Decode::class.java).type.let {
+                    if (it == ByteArray::class) {
+                        sb.append(decode(member.get(this) as ByteArray?))
+                    }
+                }
             } else {
                 sb.append("${member.get(this)}".ifBlank { "null" })
             }
