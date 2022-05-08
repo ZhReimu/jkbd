@@ -18,7 +18,7 @@ abstract class BaseQuestion {
 
     var id: Long? = null
     var answer: Int = 0
-    var mediaType: Boolean? = null
+    var mediaType: Int? = null
     var optionA: String? = null
     var optionB: String? = null
     var optionC: String? = null
