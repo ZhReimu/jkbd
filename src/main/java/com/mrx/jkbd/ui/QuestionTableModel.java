@@ -28,4 +28,12 @@ public class QuestionTableModel extends DefaultTableModel {
         super(data, columns);
     }
 
+    public void setStatusOnNum(boolean status, int row, int col) {
+        setValueAt(status ? "√" : "×", row, col);
+    }
+
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        return false;
+    }
 }

@@ -15,6 +15,12 @@ import java.io.File;
  **/
 public class UI extends JFrame implements ActionListener {
 
+    private final QuestionTableModel tableModel = new QuestionTableModel();
+
+    private int col = 1;
+
+    private int row = 1;
+
     public UI() throws Throwable {
         BufferedImage img = ImageIO.read(new File("1.jpg"));
         setTitle("Test");
@@ -63,7 +69,7 @@ public class UI extends JFrame implements ActionListener {
         contentPane.add(panel_2, BorderLayout.EAST);
 
         JTable table = new JTable();
-        table.setModel(new QuestionTableModel());
+        table.setModel(tableModel);
         table.getColumnModel().getColumns().asIterator().forEachRemaining(it -> it.setPreferredWidth(20));
         panel_2.add(table);
 
@@ -82,5 +88,11 @@ public class UI extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println(e.getActionCommand());
+        if (col > 10) {
+            row++;
+            col = 1;
+        }
+        tableModel.setStatusOnNum(true, row, col++);
     }
+
 }
