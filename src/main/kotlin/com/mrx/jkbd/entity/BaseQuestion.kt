@@ -1,7 +1,9 @@
 package com.mrx.jkbd.entity
 
-import com.mrx.mybatis.util.ReflectUtil
+import com.mrx.mybatis.interfaces.Decode
+import java.nio.charset.StandardCharsets
 import kotlin.reflect.KMutableProperty
+import kotlin.reflect.jvm.kotlinProperty
 
 /**
  * @author Mr.X
@@ -17,6 +19,43 @@ abstract class BaseQuestion {
     }
 
     fun getDecodedField(field: KMutableProperty<ByteArray?>): String {
-        return ReflectUtil.decode(field.getter.call())
+        return decode(field.getter.call())
     }
+
+    override fun toString(): String {
+        val clazz = this::class
+        val sb = StringBuilder("${clazz.simpleName}(")
+        for (member in clazz.java.declaredFields) {
+            sb.append(member.name).append("=")
+            if (member.isAnnotationPresent(Decode::class.java) && member.type.isArray) {
+                member.kotlinProperty?.let { property ->
+                    // TODO: 2022-05-08-0008 Mr.X 处理其它可能的类型, 虽然大概不会有其它类型
+                    member.getAnnotation(Decode::class.java).targetType.let {
+                        if (it == String::class) {
+                            sb.append(decode(property.getter.call(this) as ByteArray?))
+                        }
+                    }
+                }
+            } else {
+                member.kotlinProperty?.let {
+                    sb.append("${it.getter.call(this)}".ifBlank { "null" })
+                }
+            }
+            sb.append(", ")
+        }
+        sb.deleteRange(sb.lastIndex - 1, sb.lastIndex + 1).append(")")
+        return sb.toString()
+    }
+
+    fun decode(paramArrayOfByte: ByteArray?): String {
+        if (paramArrayOfByte == null) {
+            return "null"
+        }
+        val arrayOfByte = "_jiakaobaodian.com_".toByteArray(StandardCharsets.UTF_8)
+        for (i in paramArrayOfByte.indices) {
+            paramArrayOfByte[i] = (paramArrayOfByte[i].toInt() xor arrayOfByte[i % arrayOfByte.size].toInt()).toByte()
+        }
+        return String(paramArrayOfByte, StandardCharsets.UTF_8)
+    }
+
 }
