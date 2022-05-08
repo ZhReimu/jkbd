@@ -12,7 +12,30 @@ import kotlin.reflect.jvm.kotlinProperty
 @Suppress("unused")
 abstract class BaseQuestion {
 
+    var id: Long? = null
     var answer: Int = 0
+    var mediaType: Boolean? = null
+    var optionA: String? = null
+    var optionB: String? = null
+    var optionC: String? = null
+    var optionD: String? = null
+    var optionE: String? = null
+    var optionF: String? = null
+    var optionG: String? = null
+    var optionH: String? = null
+    var optionType: Int? = null
+
+    @Decode
+    var question: ByteArray? = null
+
+    @Decode
+    var explain: ByteArray? = null
+
+    @Decode
+    var illiteracyExplain: ByteArray? = null
+
+    @Decode
+    var knackDetail: ByteArray? = null
 
     fun getDecodedAnswer(): Char {
         return Char((answer / 16 + 64).toUShort())

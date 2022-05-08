@@ -2,6 +2,8 @@ package com.mrx.mybatis.mapper
 
 import com.mrx.jkbd.entity.Question
 import org.apache.ibatis.annotations.Param
+import org.apache.ibatis.annotations.ResultMap
+import org.apache.ibatis.annotations.Select
 
 /**
  * @author Mr.X
@@ -9,6 +11,8 @@ import org.apache.ibatis.annotations.Param
  **/
 interface QuestionMapper {
 
+    @Select("SELECT *FROM t_question WHERE question_id = #{qid}")
+    @ResultMap("com.mrx.mybatis.mapper.QuestionMapper.questionMap")
     fun getQuestionById(@Param("qid") qid: Long): Question
 
 }

@@ -18,10 +18,4 @@
         <result column="knack_voice_txt" property="knackVoiceTxt" javaType="byte[]"/>
     </resultMap>
 
-    <select id="getQuestionById" resultType="Question" parameterType="long" resultMap="questionMap">
-        SELECT *
-        FROM t_question
-        WHERE question_id = #{qid}
-    </select>
-
 </mapper>
