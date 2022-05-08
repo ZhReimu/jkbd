@@ -1,8 +1,12 @@
 package com.mrx.jkbd.entity
 
 import com.mrx.mybatis.interfaces.Decode
+import org.apache.commons.beanutils.BeanUtils
+import java.lang.reflect.Field
 import java.nio.charset.StandardCharsets
+import kotlin.reflect.KClass
 import kotlin.reflect.KMutableProperty
+import kotlin.reflect.full.superclasses
 import kotlin.reflect.jvm.kotlinProperty
 
 /**
@@ -45,10 +49,15 @@ abstract class BaseQuestion {
         return decode(field.getter.call())
     }
 
+    inline fun <reified T : BaseQuestion> toOtherQuestion(): T = T::class.java.getConstructor().newInstance().apply {
+        BeanUtils.copyProperties(this, this@BaseQuestion)
+    }
+
     override fun toString(): String {
         val clazz = this::class
         val sb = StringBuilder("${clazz.simpleName}(")
-        for (member in clazz.java.declaredFields) {
+        val fields = getDeclaredFields(clazz)
+        for (member in fields) {
             sb.append(member.name).append("=")
             if (member.isAnnotationPresent(Decode::class.java) && member.type.isArray) {
                 member.kotlinProperty?.let { property ->
@@ -66,11 +75,14 @@ abstract class BaseQuestion {
             }
             sb.append(", ")
         }
-        sb.deleteRange(sb.lastIndex - 1, sb.lastIndex + 1).append(")")
+        if (fields.isNotEmpty()) {
+            sb.deleteRange(sb.lastIndex - 1, sb.lastIndex + 1)
+        }
+        sb.append(")")
         return sb.toString()
     }
 
-    fun decode(paramArrayOfByte: ByteArray?): String {
+    private fun decode(paramArrayOfByte: ByteArray?): String {
         if (paramArrayOfByte == null) {
             return "null"
         }
@@ -79,6 +91,13 @@ abstract class BaseQuestion {
             paramArrayOfByte[i] = (paramArrayOfByte[i].toInt() xor arrayOfByte[i % arrayOfByte.size].toInt()).toByte()
         }
         return String(paramArrayOfByte, StandardCharsets.UTF_8)
+    }
+
+    private fun getDeclaredFields(clazz: KClass<*>, depth: Int = 1): List<Field> {
+        if (depth == 0) {
+            return clazz.java.declaredFields.toList()
+        }
+        return ArrayList(getDeclaredFields(clazz.superclasses[0], depth - 1))
     }
 
 }
