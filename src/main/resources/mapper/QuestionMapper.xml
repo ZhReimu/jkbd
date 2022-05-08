@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mrx.mybatis.mapper.QuestionMapper">
+
+    <resultMap id="questionMap" type="Question">
+        <result column="question" property="question" javaType="byte[]"/>
+        <result column="explain" property="explain" javaType="byte[]"/>
+        <result column="keywords" property="keywords" javaType="byte[]"/>
+        <result column="concise_explain" property="conciseExplain" javaType="byte[]"/>
+        <result column="assured_keywords" property="assuredKeywords" javaType="byte[]"/>
+        <result column="illiteracy_explain" property="illiteracyExplain" javaType="byte[]"/>
+        <result column="illiteracy_keywords" property="illiteracyKeywords" javaType="byte[]"/>
+        <result column="knack_keyword" property="knackKeyword" javaType="byte[]"/>
+        <result column="knack_img_url" property="knackImgUrl" javaType="byte[]"/>
+        <result column="knack_detail" property="knackDetail" javaType="byte[]"/>
+        <result column="knack_voice_txt" property="knackVoiceTxt" javaType="byte[]"/>
+    </resultMap>
+
+    <select id="getQuestionById" resultType="Question" parameterType="long" resultMap="questionMap">
+        SELECT *
+        FROM t_question
+        WHERE question_id = #{qid}
+    </select>
+
+</mapper>

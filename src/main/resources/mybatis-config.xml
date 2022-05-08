@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <typeAliases>
+        <typeAlias alias="Question" type="com.mrx.jkbd.entity.Question"/>
+    </typeAliases>
+
+    <typeHandlers>
+        <typeHandler javaType="byte[]" handler="com.mrx.mybatis.config.ByteArrayTypeHandler"/>
+    </typeHandlers>
+
+    <environments default="development">
+
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="com.mrx.mybatis.config.XDruidDataSourceFactory">
+                <property name="name" value="SQLITE"/>
+                <property name="url" value="jdbc:sqlite::resource:question.db"/>
+                <property name="driverClassName" value="org.sqlite.JDBC"/>
+                <property name="initialSize" value="5"/>
+                <property name="minIdle" value="5"/>
+                <property name="maxActive" value="10"/>
+                <property name="maxWait" value="10000"/>
+                <property name="validationQuery" value="SELECT 1"/>
+            </dataSource>
+        </environment>
+
+    </environments>
+
+    <mappers>
+        <mapper resource="mapper/QuestionMapper.xml"/>
+    </mappers>
+
+</configuration>
