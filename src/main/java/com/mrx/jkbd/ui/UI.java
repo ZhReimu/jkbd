@@ -70,7 +70,7 @@ public class UI extends JFrame implements ActionListener {
 
         JPanel panel_3 = new JPanel();
         contentPane.add(panel_3, BorderLayout.CENTER);
-        panel_3.setLayout(new GridLayout(2, 1, 0, 0));
+        panel_3.setLayout(new GridLayout(2, 1, 0, 40));
 
         JTextPane textPane = new JTextPane();
         panel_3.add(textPane);
