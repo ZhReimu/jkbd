@@ -8,4 +8,4 @@ import kotlin.reflect.KClass
  **/
 @Target(AnnotationTarget.FIELD)
 @Retention(AnnotationRetention.RUNTIME)
-annotation class Decode(val type: KClass<*> = ByteArray::class)
+annotation class Decode(val targetType: KClass<*> = String::class)

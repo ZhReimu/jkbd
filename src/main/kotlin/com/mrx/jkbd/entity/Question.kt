@@ -1,8 +1,8 @@
 package com.mrx.jkbd.entity
 
 import com.mrx.mybatis.interfaces.Decode
+import com.mrx.mybatis.util.ReflectUtil
 import java.io.Serializable
-import java.nio.charset.StandardCharsets
 import kotlin.reflect.KMutableProperty
 
 /**
@@ -72,39 +72,7 @@ class Question : Serializable {
     }
 
     fun getDecodedField(field: KMutableProperty<ByteArray?>): String {
-        return decode(field.getter.call())
+        return ReflectUtil.decode(field.getter.call())
     }
-
-    private fun decode(paramArrayOfByte: ByteArray?): String {
-        if (paramArrayOfByte == null) {
-            return "null"
-        }
-        val arrayOfByte = "_jiakaobaodian.com_".toByteArray(StandardCharsets.UTF_8)
-        for (i in paramArrayOfByte.indices) {
-            paramArrayOfByte[i] = (paramArrayOfByte[i].toInt() xor arrayOfByte[i % arrayOfByte.size].toInt()).toByte()
-        }
-        return String(paramArrayOfByte, StandardCharsets.UTF_8)
-    }
-
-    override fun toString(): String {
-        val sb = StringBuilder("Question(")
-        for (member in this::class.java.declaredFields) {
-            sb.append(member.name).append("=")
-            if (member.isAnnotationPresent(Decode::class.java)) {
-                // TODO: 2022-05-08-0008 Mr.X 处理其它可能的类型, 虽然大概不会有其它类型
-                member.getAnnotation(Decode::class.java).type.let {
-                    if (it == ByteArray::class) {
-                        sb.append(decode(member.get(this) as ByteArray?))
-                    }
-                }
-            } else {
-                sb.append("${member.get(this)}".ifBlank { "null" })
-            }
-            sb.append(", ")
-        }
-        sb.deleteRange(sb.lastIndex - 1, sb.lastIndex + 1).append(")")
-        return sb.toString()
-    }
-
 
 }

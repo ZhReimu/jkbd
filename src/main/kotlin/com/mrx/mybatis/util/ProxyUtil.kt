@@ -1,4 +1,4 @@
-package com.mrx.mybatis
+package com.mrx.mybatis.util
 
 import com.mrx.mybatis.interfaces.Decode
 import java.lang.reflect.InvocationHandler
@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets
  **/
 @Deprecated(message = "有问题, 暂时不用", level = DeprecationLevel.ERROR)
 @Suppress("unused")
-class ReflectUtil constructor(private val obj: Any) : InvocationHandler {
+class ProxyUtil constructor(private val obj: Any) : InvocationHandler {
 
     @Suppress("unchecked_cast")
     fun <E> createProxyTQuestion(): E {
