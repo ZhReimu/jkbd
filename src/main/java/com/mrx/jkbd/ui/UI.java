@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Random;
 
 /**
  * @author Mr.X
@@ -16,6 +17,8 @@ import java.io.File;
 public class UI extends JFrame implements ActionListener {
 
     private final QuestionTableModel tableModel = new QuestionTableModel();
+
+    private final QuestionTableCellRenderer cellRenderer = new QuestionTableCellRenderer();
 
     private int col = 1;
 
@@ -70,7 +73,10 @@ public class UI extends JFrame implements ActionListener {
 
         JTable table = new JTable();
         table.setModel(tableModel);
-        table.getColumnModel().getColumns().asIterator().forEachRemaining(it -> it.setPreferredWidth(20));
+        table.getColumnModel().getColumns().asIterator().forEachRemaining(it -> {
+            it.setPreferredWidth(20);
+            it.setCellRenderer(cellRenderer);
+        });
         panel_2.add(table);
 
 
@@ -92,7 +98,7 @@ public class UI extends JFrame implements ActionListener {
             row++;
             col = 1;
         }
-        tableModel.setStatusOnNum(true, row, col++);
+        tableModel.setStatusOnNum(new Random().nextBoolean(), row, col++);
     }
 
 }
