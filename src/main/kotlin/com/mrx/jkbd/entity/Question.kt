@@ -1,16 +1,13 @@
 package com.mrx.jkbd.entity
 
 import com.mrx.mybatis.interfaces.Decode
-import com.mrx.mybatis.util.ReflectUtil
-import java.io.Serializable
-import kotlin.reflect.KMutableProperty
 
 /**
  * @author Mr.X
  * @since 2022-05-08-0008
  **/
 @Suppress("unused")
-class Question : Serializable {
+class Question : BaseQuestion() {
 
     var id: Long = 0
     var questionId: Long = 0
@@ -18,7 +15,6 @@ class Question : Serializable {
     var chapterId: Long = 0
     var label: String? = null
     var mediaKey: String? = null
-    var answer: Long = 0
     var optionA: String? = null
     var optionB: String? = null
     var optionC: String? = null
@@ -66,13 +62,5 @@ class Question : Serializable {
 
     @Decode
     var knackVoiceTxt: ByteArray? = null
-
-    fun getDecodedAnswer(): Char {
-        return Char((answer / 16 + 64).toUShort())
-    }
-
-    fun getDecodedField(field: KMutableProperty<ByteArray?>): String {
-        return ReflectUtil.decode(field.getter.call())
-    }
 
 }
