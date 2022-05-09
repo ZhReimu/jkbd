@@ -17,5 +17,11 @@
         <result column="knack_detail" property="knackDetail" javaType="byte[]"/>
         <result column="knack_voice_txt" property="knackVoiceTxt" javaType="byte[]"/>
     </resultMap>
+    <resultMap id="dtoQuestionMap" type="DTOQuestion">
+        <result column="question" property="question" javaType="byte[]"/>
+        <result column="explain" property="explain" javaType="byte[]"/>
+        <result column="illiteracy_explain" property="illiteracyExplain" javaType="byte[]"/>
+        <result column="knack_detail" property="knackDetail" javaType="byte[]"/>
+    </resultMap>
 
 </mapper>

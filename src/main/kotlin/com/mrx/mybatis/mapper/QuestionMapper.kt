@@ -21,7 +21,7 @@ interface QuestionMapper {
     fun getQuestionByID(@Param("id") id: Long): Question?
 
     @Select("SELECT *FROM t_question WHERE _id BETWEEN #{start} AND #{end}")
-    @ResultMap("com.mrx.mybatis.mapper.QuestionMapper.questionMap")
+    @ResultMap("com.mrx.mybatis.mapper.QuestionMapper.dtoQuestionMap")
     fun getQuestionsByRange(@Param("start") start: Long, @Param("end") end: Long): List<DTOQuestion>
 
 }

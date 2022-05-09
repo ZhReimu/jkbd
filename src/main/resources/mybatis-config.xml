@@ -9,6 +9,7 @@
 
     <typeAliases>
         <typeAlias alias="Question" type="com.mrx.jkbd.entity.Question"/>
+        <typeAlias alias="DTOQuestion" type="com.mrx.jkbd.entity.DTOQuestion"/>
     </typeAliases>
 
     <typeHandlers>
