@@ -14,7 +14,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.List;
-import java.util.Random;
 
 /**
  * @author Mr.X
@@ -44,6 +43,8 @@ public class UI extends JFrame implements ActionListener {
     private int col = 1;
 
     private int row = 1;
+
+    private DecodedQuestion question;
 
     public UI(List<DecodedQuestion> questions) throws Throwable {
         this.questions = questions;
@@ -108,6 +109,10 @@ public class UI extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println(e.getActionCommand());
+        if (e.getActionCommand().length() == 1) {
+            question.setYourAnswer(e.getActionCommand().toCharArray()[0]);
+            return;
+        }
         switch (e.getActionCommand()) {
             case NEXT:
                 nextQuestion();
@@ -127,17 +132,19 @@ public class UI extends JFrame implements ActionListener {
             col = 1;
         }
         if (row > 10) {
-            JOptionPane.showMessageDialog(this, "所有题目已经做完!", "提示", JOptionPane.INFORMATION_MESSAGE);
+            showDialog("所有题目已经做完!", "提示", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
+        if (!question.isCorrect()) {
+            showDialog("你做错辣, 正确答案是: " + question.getAnswer(), "错误", JOptionPane.ERROR_MESSAGE);
+        }
         int c = (row - 1) * 10 + col;
-        System.out.println("第 " + c + " 题");
+        tableModel.setStatusOnNum(question.isCorrect(), row, col++);
         questionLabel.setText(getQuestion(c));
-        tableModel.setStatusOnNum(new Random().nextBoolean(), row, col++);
     }
 
     private String getQuestion(int position) {
-        DecodedQuestion question = questions.get(position);
+        question = questions.get(position);
         int optionNum = question.getOptionCount();
         while (optionNum-- > 0) {
             addButton(String.valueOf((char) ('A' + optionNum)), 0);
@@ -154,4 +161,9 @@ public class UI extends JFrame implements ActionListener {
     private void addButton(String action) {
         addButton(action, -1);
     }
+
+    private void showDialog(String msg, String title, int messageType) {
+        JOptionPane.showMessageDialog(this, msg, title, messageType);
+    }
+
 }

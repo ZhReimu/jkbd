@@ -1,5 +1,6 @@
 package com.mrx.jkbd.entity
 
+import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
 import kotlin.reflect.full.memberProperties
@@ -47,6 +48,15 @@ class DecodedQuestion {
     var explain: String? = null
     var illiteracyExplain: String? = null
     var knackDetail: String? = null
+
+    @TableField(exist = false)
+    var yourAnswer: Char? = null
+
+    fun isCorrect(): Boolean {
+        answer ?: return false
+        yourAnswer ?: return false
+        return answer!!.equals(yourAnswer!!, true)
+    }
 
     fun getStringQuestion(num: Int): String {
         val sb = StringBuilder("第 $num 题: $question\n")
