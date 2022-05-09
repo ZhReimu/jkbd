@@ -13,7 +13,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Mr.X
@@ -39,6 +41,8 @@ public class UI extends JFrame implements ActionListener {
     private final List<DecodedQuestion> questions;
 
     private final BufferedImage img;
+
+    private final Map<String, JButton> options = new HashMap<>();
 
     private int col = 1;
 
@@ -104,6 +108,14 @@ public class UI extends JFrame implements ActionListener {
         // 图片区域
         XImageView imageView = new XImageView(img);
         panel_3.add(imageView);
+        initOptionButtons();
+    }
+
+    private void initOptionButtons() {
+        int optionNum = 8;
+        while (optionNum-- > 0) {
+            addButton(String.valueOf((char) ('A' + optionNum)), 0);
+        }
     }
 
     @Override
@@ -145,16 +157,33 @@ public class UI extends JFrame implements ActionListener {
 
     private String getQuestion(int position) {
         question = questions.get(position);
-        int optionNum = question.getOptionCount();
-        while (optionNum-- > 0) {
-            addButton(String.valueOf((char) ('A' + optionNum)), 0);
-        }
+        removeOptions();
+        addOptions(question.getOptionCount());
         return question.getStringQuestion(position + 1);
+    }
+
+    private void removeOptions() {
+        options.forEach((k, v) -> btnPanel.remove(v));
+    }
+
+    private void addOptions(int num) {
+        int optionNum = num;
+        while (optionNum-- > 0) {
+            String key = String.valueOf((char) ('A' + optionNum));
+            JButton button = options.get(key);
+            button.setVisible(true);
+            btnPanel.add(button, 0);
+        }
     }
 
     private void addButton(String action, int index) {
         JButton button = new JButton(action);
         button.addActionListener(this);
+        if (index == 0) {
+            options.put(action, button);
+            button.setVisible(false);
+            return;
+        }
         btnPanel.add(button, index);
     }
 
