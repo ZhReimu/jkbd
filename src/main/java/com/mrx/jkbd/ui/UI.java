@@ -18,8 +18,6 @@ public class UI extends JFrame implements ActionListener {
 
     private final XTableModel tableModel = new XTableModel();
 
-    private final XTableCellRenderer cellRenderer = new XTableCellRenderer();
-
     private int col = 1;
 
     private int row = 1;
@@ -71,14 +69,12 @@ public class UI extends JFrame implements ActionListener {
         JPanel panel_2 = new JPanel();
         contentPane.add(panel_2, BorderLayout.EAST);
 
-        JTable table = new JTable();
+        JTable table = new XTableView();
         table.setModel(tableModel);
         table.getColumnModel().getColumns().asIterator().forEachRemaining(it -> {
             it.setPreferredWidth(20);
-            it.setCellRenderer(cellRenderer);
+            it.setCellRenderer(new XTableCellRenderer());
         });
-        table.setFocusable(false);
-        table.setRowSelectionAllowed(false);
         panel_2.add(table);
 
         JPanel panel_3 = new JPanel();

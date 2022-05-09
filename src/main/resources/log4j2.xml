@@ -15,7 +15,6 @@
         <logger name="org.apache.ibatis.transaction" level="WARN"/>
         <logger name="org.apache.ibatis.logging.LogFactory" level="WARN"/>
         <logger name="org.apache.ibatis.logging.jdbc.BaseJdbcLogger" level="DEBUG"/>
-        <logger name="com.mrx.jkbd.ui.XTableCellRenderer" level="INFO"/>
     </loggers>
 
 </configuration>
