@@ -12,7 +12,7 @@ object Main {
     @JvmStatic
     fun main(args: Array<String>) {
         EventQueue.invokeLater {
-            UI().isVisible = true
+            UI(getRandomQuestions(10)).isVisible = true
         }
     }
 
@@ -21,7 +21,8 @@ object Main {
         val rad = Random(System.currentTimeMillis())
         val radLong = rad.nextLong(17649, 85338 + 1)
         // TODO: 2022-05-09-0009 Mr.X 实现随机出题
-        return mapper.getQuestionsByRange(radLong, radLong + num)
+        val res = mapper.getQuestionsByRange(radLong, radLong + num)
+        return if (res.size < num) getRandomQuestions(num) else res
     }
 
 }
