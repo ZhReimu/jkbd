@@ -1,4 +1,4 @@
-package com.mrx.jkbd.ui;
+package com.mrx.jkbd.ui.component;
 
 import javax.swing.table.DefaultTableModel;
 

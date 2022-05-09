@@ -1,4 +1,4 @@
-package com.mrx.jkbd.ui;
+package com.mrx.jkbd.ui.component;
 
 import com.mrx.jkbd.ui.util.BoundedMapQueue;
 
