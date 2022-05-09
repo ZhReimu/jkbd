@@ -14,11 +14,11 @@ class DTOQuestion : BaseQuestion() {
         return if (optionType == 0) {
             sb.toString()
         } else {
-            optionC?.let { sb.append("C: $it\n") }
-            optionD?.let { sb.append("D: $it\n") }
-            optionE?.let { sb.append("E: $it\n") }
-            optionF?.let { sb.append("F: $it\n") }
-            optionG?.let { sb.append("G: $it\n") }
+            optionC?.let { if (it.isNotEmpty()) sb.append("C: $it\n") }
+            optionD?.let { if (it.isNotEmpty()) sb.append("D: $it\n") }
+            optionE?.let { if (it.isNotEmpty()) sb.append("E: $it\n") }
+            optionF?.let { if (it.isNotEmpty()) sb.append("F: $it\n") }
+            optionG?.let { if (it.isNotEmpty()) sb.append("G: $it\n") }
             sb.toString()
         }
     }

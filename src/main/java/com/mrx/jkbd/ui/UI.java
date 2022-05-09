@@ -136,7 +136,9 @@ public class UI extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(this, "所有题目已经做完!", "提示", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-        questionLabel.setText(getQuestion(1));
+        int c = (row - 1) * 10 + col;
+        System.out.println("第 " + c + " 题");
+        questionLabel.setText(getQuestion(c));
         tableModel.setStatusOnNum(new Random().nextBoolean(), row, col++);
     }
 
