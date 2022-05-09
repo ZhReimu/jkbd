@@ -28,9 +28,8 @@ public class UI extends JFrame implements ActionListener {
     private final XTableCellRenderer renderer = new XTableCellRenderer();
 
     private static final Logger logger = LoggerFactory.getLogger(UI.class);
-    private final JPanel btnPanel = new JPanel();
 
-    private static final String PREV = "上一题";
+    private final JPanel btnPanel = new JPanel();
 
     private static final String NEXT = "下一题";
 
@@ -54,8 +53,10 @@ public class UI extends JFrame implements ActionListener {
         this.questions = questions;
         logger.debug("初始化题目: {}", questions.size());
         img = ImageIO.read(new File("1.jpg"));
+        logger.debug("初始化界面");
         initComponents();
         questionLabel.setText(getQuestion(0));
+        logger.debug("界面初始化完毕");
     }
 
     private void initComponents() {
@@ -83,8 +84,6 @@ public class UI extends JFrame implements ActionListener {
 
         panel.add(btnPanel, BorderLayout.EAST);
         btnPanel.setLayout(new GridLayout(1, 0, 0, 0));
-        // 上一题 按钮
-        addButton(PREV);
         // 下一题 按钮
         addButton(NEXT);
         // 交卷 按钮
@@ -120,7 +119,6 @@ public class UI extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println(e.getActionCommand());
         if (e.getActionCommand().length() == 1) {
             question.setYourAnswer(e.getActionCommand().toCharArray()[0]);
             return;
@@ -129,11 +127,8 @@ public class UI extends JFrame implements ActionListener {
             case NEXT:
                 nextQuestion();
                 break;
-            case PREV:
-                break;
             case SUBMIT:
-                break;
-            default:
+                submit();
                 break;
         }
     }
@@ -148,11 +143,20 @@ public class UI extends JFrame implements ActionListener {
             return;
         }
         if (!question.isCorrect()) {
-            showDialog("你做错辣, 正确答案是: " + question.getAnswer(), "错误", JOptionPane.ERROR_MESSAGE);
+            showDialog("你做错辣, 正确答案是: " + question.getAnswer() + "\n" + question.getExplain(), "错误", JOptionPane.ERROR_MESSAGE);
         }
         int c = (row - 1) * 10 + col;
         tableModel.setStatusOnNum(question.isCorrect(), row, col++);
         questionLabel.setText(getQuestion(c));
+    }
+
+    private void submit() {
+        int res = JOptionPane.showConfirmDialog(this, "确定要交卷吗?", "提示", JOptionPane.YES_NO_OPTION);
+        if (res == 0) {
+            long score = questions.stream().filter(DecodedQuestion::isCorrect).count();
+            showDialog("交卷成功, 您的分数为: " + score + "分", "提示", JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0);
+        }
     }
 
     private String getQuestion(int position) {
