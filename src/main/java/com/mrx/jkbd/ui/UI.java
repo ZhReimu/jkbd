@@ -16,9 +16,9 @@ import java.util.Random;
  **/
 public class UI extends JFrame implements ActionListener {
 
-    private final QuestionTableModel tableModel = new QuestionTableModel();
+    private final XTableModel tableModel = new XTableModel();
 
-    private final QuestionTableCellRenderer cellRenderer = new QuestionTableCellRenderer();
+    private final XTableCellRenderer cellRenderer = new XTableCellRenderer();
 
     private int col = 1;
 
@@ -77,8 +77,9 @@ public class UI extends JFrame implements ActionListener {
             it.setPreferredWidth(20);
             it.setCellRenderer(cellRenderer);
         });
+        table.setFocusable(false);
+        table.setRowSelectionAllowed(false);
         panel_2.add(table);
-
 
         JPanel panel_3 = new JPanel();
         contentPane.add(panel_3, BorderLayout.CENTER);

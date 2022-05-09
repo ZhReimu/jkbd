@@ -6,7 +6,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Mr.X
  * @since 2022-05-08-0008
  **/
-public class QuestionTableModel extends DefaultTableModel {
+public class XTableModel extends DefaultTableModel {
 
     private static final Object[][] data = new Object[][]{
             {null, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
@@ -24,7 +24,7 @@ public class QuestionTableModel extends DefaultTableModel {
 
     private static final String[] columns = new String[11];
 
-    public QuestionTableModel() {
+    public XTableModel() {
         super(data, columns);
     }
 
