@@ -25,6 +25,11 @@ public class UI extends JFrame implements ActionListener {
 
     private final XTableCellRenderer renderer = new XTableCellRenderer();
 
+    private static final String PREV = "上一题";
+    private static final String NEXT = "下一题";
+    private static final String SUBMIT = "交卷";
+    private final JTextArea questionArea = new JTextArea();
+
     private int col = 1;
 
     private int row = 1;
@@ -51,8 +56,8 @@ public class UI extends JFrame implements ActionListener {
         setContentPane(contentPane);
         contentPane.setLayout(new BorderLayout(0, 0));
 
-        JTextArea textArea = new JTextArea();
-        contentPane.add(textArea, BorderLayout.CENTER);
+
+        contentPane.add(questionArea, BorderLayout.CENTER);
 
         JPanel panel = new JPanel();
         contentPane.add(panel, BorderLayout.SOUTH);
@@ -62,15 +67,15 @@ public class UI extends JFrame implements ActionListener {
         panel.add(panel_1, BorderLayout.EAST);
         panel_1.setLayout(new GridLayout(1, 0, 0, 0));
 
-        JButton btnNewButton = new JButton("Prev");
+        JButton btnNewButton = new JButton(PREV);
         btnNewButton.addActionListener(this);
         panel_1.add(btnNewButton);
 
-        JButton btnNewButton_1 = new JButton("Next");
+        JButton btnNewButton_1 = new JButton(NEXT);
         btnNewButton_1.addActionListener(this);
         panel_1.add(btnNewButton_1);
 
-        JButton btnNewButton_3 = new JButton("Exit");
+        JButton btnNewButton_3 = new JButton(SUBMIT);
         btnNewButton_3.addActionListener(this);
         panel_1.add(btnNewButton_3);
 
@@ -99,12 +104,20 @@ public class UI extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println(e.getActionCommand());
+        switch (e.getActionCommand()) {
+            case NEXT:
+                nextQuestion();
+                break;
+        }
+    }
+
+    private void nextQuestion() {
         if (col > 10) {
             row++;
             col = 1;
         }
         if (row > 10) {
-            JOptionPane.showMessageDialog(this, "测试", "提示", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "所有题目已经做完!", "提示", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         tableModel.setStatusOnNum(new Random().nextBoolean(), row, col++);
