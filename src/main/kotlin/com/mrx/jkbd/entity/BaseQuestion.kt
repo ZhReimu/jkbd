@@ -17,6 +17,8 @@ import kotlin.reflect.jvm.kotlinProperty
 abstract class BaseQuestion {
 
     var id: Long? = null
+
+    @Decode(isAnswer = true)
     var answer: Int = 0
     var mediaType: Int? = null
     var optionA: String? = null
@@ -82,18 +84,18 @@ abstract class BaseQuestion {
         return sb.toString()
     }
 
-    protected fun decode(paramArrayOfByte: ByteArray?): String {
-        if (paramArrayOfByte == null) {
+    protected fun decode(encBytes: ByteArray?): String {
+        if (encBytes == null) {
             return "null"
         }
-        val arrayOfByte = "_jiakaobaodian.com_".toByteArray(StandardCharsets.UTF_8)
-        for (i in paramArrayOfByte.indices) {
-            paramArrayOfByte[i] = (paramArrayOfByte[i].toInt() xor arrayOfByte[i % arrayOfByte.size].toInt()).toByte()
+        val key = "_jiakaobaodian.com_".toByteArray(StandardCharsets.UTF_8)
+        for (i in encBytes.indices) {
+            encBytes[i] = (encBytes[i].toInt() xor key[i % key.size].toInt()).toByte()
         }
-        return String(paramArrayOfByte, StandardCharsets.UTF_8)
+        return String(encBytes, StandardCharsets.UTF_8)
     }
 
-    protected fun getDeclaredFields(clazz: KClass<*>, depth: Int = 1): List<Field> {
+    private fun getDeclaredFields(clazz: KClass<*>, depth: Int = 1): List<Field> {
         if (depth == 0) {
             return clazz.java.declaredFields.toList()
         }

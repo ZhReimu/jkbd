@@ -4,24 +4,23 @@ import com.mrx.jkbd.entity.DTOQuestion
 import com.mrx.mybatis.config.MybatisUtil
 import com.mrx.mybatis.mapper.DecodeQuestionMapper
 import com.mrx.mybatis.mapper.QuestionMapper
-import com.mrx.mybatis.service.impl.DecQuestionServiceImpl
 import kotlin.random.Random
-import kotlin.streams.toList
 
+@Suppress("unused")
 object Main {
 
-    private val decMapper = MybatisUtil.getMapperPlus(DecodeQuestionMapper::class.java)
+    private val decMapper by lazy { MybatisUtil.getMapperPlus(DecodeQuestionMapper::class.java) }
 
-    private val encMapper = MybatisUtil.getMapper(QuestionMapper::class.java)
+    private val encMapper by lazy { MybatisUtil.getMapper(QuestionMapper::class.java) }
 
     @JvmStatic
     fun main(args: Array<String>) {
 //        EventQueue.invokeLater {
 //            UI(getRandomQuestions(10)).isVisible = true
 //        }
-        val dqs = DecQuestionServiceImpl(decMapper)
-        val res = encMapper.getAllQuestions().stream().map { it.toDecodedQuestion() }.toList()
-        dqs.saveBatch(res)
+//        val dqs = DecQuestionServiceImpl(decMapper)
+        val res = encMapper.getQuestionByID(17649)?.toDecodedQuestion()
+        println(res)
     }
 
     private fun getRandomQuestions(num: Int): List<DTOQuestion> {

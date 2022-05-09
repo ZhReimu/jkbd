@@ -12,20 +12,20 @@ import org.apache.ibatis.annotations.Select
  **/
 interface QuestionMapper {
 
-    @Select("SELECT *FROM t_question WHERE question_id = #{qid}")
+    @Select("SELECT * FROM t_question WHERE question_id = #{qid}")
     @ResultMap("com.mrx.mybatis.mapper.QuestionMapper.questionMap")
     fun getQuestionByQID(@Param("qid") qid: Long): Question
 
-    @Select("SELECT *FROM t_question WHERE _id = #{id}")
+    @Select("SELECT * FROM t_question WHERE _id = #{id}")
     @ResultMap("com.mrx.mybatis.mapper.QuestionMapper.questionMap")
     fun getQuestionByID(@Param("id") id: Long): Question?
 
-    @Select("SELECT *FROM t_question WHERE _id BETWEEN #{start} AND #{end}")
+    @Select("SELECT * FROM t_question WHERE _id BETWEEN #{start} AND #{end}")
     @ResultMap("com.mrx.mybatis.mapper.QuestionMapper.dtoQuestionMap")
     fun getQuestionsByRange(@Param("start") start: Long, @Param("end") end: Long): List<DTOQuestion>
 
-    @Select("SELECT *FROM t_question")
-    @ResultMap("com.mrx.mybatis.mapper.QuestionMapper.dtoQuestionMap")
-    fun getAllQuestions(): List<DTOQuestion>
+    @Select("SELECT * FROM t_question")
+    @ResultMap("com.mrx.mybatis.mapper.QuestionMapper.questionMap")
+    fun getAllQuestions(): List<Question>
 
 }

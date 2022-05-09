@@ -1,6 +1,7 @@
 package com.mrx.jkbd.entity
 
 import com.mrx.mybatis.interfaces.Decode
+import org.apache.commons.beanutils.BeanUtils
 
 /**
  * @author Mr.X
@@ -18,6 +19,8 @@ class Question : BaseQuestion() {
     var M: Long = 0
     var sort: Long = 0
     var supreme: Long = 0
+
+    private val that = this
 
     @Decode
     var conciseExplain: ByteArray? = null
@@ -39,5 +42,20 @@ class Question : BaseQuestion() {
 
     @Decode
     var knackVoiceTxt: ByteArray? = null
+
+    fun toDecodedQuestion() = DecodedQuestion().apply {
+        BeanUtils.copyProperties(this, that)
+        conciseExplain = decode(that.conciseExplain)
+        keywords = decode(that.keywords)
+        assuredKeywords = decode(that.assuredKeywords)
+        illiteracyExplain = decode(that.illiteracyExplain)
+        illiteracyKeywords = decode(that.illiteracyKeywords)
+        knackDetail = decode(that.knackDetail)
+        knackKeyword = decode(that.knackKeyword)
+        knackImgUrl = decode(that.knackImgUrl)
+        knackVoiceTxt = decode(that.knackVoiceTxt)
+        question = decode(that.question)
+        explain = decode(that.explain)
+    }
 
 }
