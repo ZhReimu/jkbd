@@ -1,12 +1,13 @@
 package com.mrx
 
-import com.mrx.jkbd.entity.DTOQuestion
+import com.mrx.jkbd.entity.DecodedQuestion
+import com.mrx.jkbd.ui.UI
 import com.mrx.mybatis.config.MybatisUtil
 import com.mrx.mybatis.mapper.DecodeQuestionMapper
 import com.mrx.mybatis.mapper.QuestionMapper
 import com.mrx.mybatis.service.impl.DecQuestionServiceImpl
+import java.awt.EventQueue
 import kotlin.random.Random
-import kotlin.streams.toList
 
 @Suppress("unused")
 object Main {
@@ -15,22 +16,23 @@ object Main {
 
     private val encMapper by lazy { MybatisUtil.getMapper(QuestionMapper::class.java) }
 
+    private val dqs by lazy { DecQuestionServiceImpl(decMapper) }
+
     @JvmStatic
     fun main(args: Array<String>) {
-//        EventQueue.invokeLater {
-//            UI(getRandomQuestions(10)).isVisible = true
-//        }
-        val dqs = DecQuestionServiceImpl(decMapper)
-        val res = encMapper.getAllQuestions().stream().map { it.toDecodedQuestion() }.toList()
-        dqs.saveBatch(res)
+        EventQueue.invokeLater {
+            UI(getRandomQuestions()).isVisible = true
+        }
     }
 
-    private fun getRandomQuestions(num: Int): List<DTOQuestion> {
+    private fun getRandomQuestions(num: Int = 10): List<DecodedQuestion> {
         val rad = Random(System.currentTimeMillis())
-        val radLong = rad.nextLong(17649, 85338 + 1)
-        // TODO: 2022-05-09-0009 Mr.X 实现随机出题
-        val res = encMapper.getQuestionsByRange(radLong, radLong + num)
-        return if (res.size < num) getRandomQuestions(num) else res
+        val res = HashSet<DecodedQuestion>(num)
+        while (res.size < num) {
+            val radLong = rad.nextLong(17649, 85338 + 1)
+            dqs.getById(radLong)?.let { res.add(it) }
+        }
+        return res.toList()
     }
 
 }

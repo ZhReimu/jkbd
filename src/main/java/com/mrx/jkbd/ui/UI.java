@@ -1,7 +1,9 @@
 package com.mrx.jkbd.ui;
 
-import com.mrx.jkbd.entity.DTOQuestion;
+import com.mrx.jkbd.entity.DecodedQuestion;
 import com.mrx.jkbd.ui.component.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -24,6 +26,8 @@ public class UI extends JFrame implements ActionListener {
 
     private final XTableCellRenderer renderer = new XTableCellRenderer();
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     private static final String PREV = "上一题";
 
     private static final String NEXT = "下一题";
@@ -32,7 +36,7 @@ public class UI extends JFrame implements ActionListener {
 
     private final XTextView questionLabel = new XTextView();
 
-    private final List<DTOQuestion> questions;
+    private final List<DecodedQuestion> questions;
 
     private final BufferedImage img;
 
@@ -40,8 +44,9 @@ public class UI extends JFrame implements ActionListener {
 
     private int row = 1;
 
-    public UI(List<DTOQuestion> questions) throws Throwable {
+    public UI(List<DecodedQuestion> questions) throws Throwable {
         this.questions = questions;
+        logger.debug("初始化题目: {}, {}", questions.size(), questions);
         img = ImageIO.read(new File("1.jpg"));
         initComponents();
         questionLabel.setText(getQuestion(0));

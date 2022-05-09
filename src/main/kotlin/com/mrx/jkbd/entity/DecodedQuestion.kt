@@ -47,6 +47,22 @@ class DecodedQuestion {
     var illiteracyExplain: String? = null
     var knackDetail: String? = null
 
+    fun getStringQuestion(num: Int): String {
+        val sb = StringBuilder("第 $num 题: $question\n")
+        sb.append("A: $optionA\n").append("B: $optionB\n")
+        // optionType 0 为 判断
+        return if (optionType == 0) {
+            sb.toString()
+        } else {
+            optionC?.let { if (it.isNotEmpty()) sb.append("C: $it\n") }
+            optionD?.let { if (it.isNotEmpty()) sb.append("D: $it\n") }
+            optionE?.let { if (it.isNotEmpty()) sb.append("E: $it\n") }
+            optionF?.let { if (it.isNotEmpty()) sb.append("F: $it\n") }
+            optionG?.let { if (it.isNotEmpty()) sb.append("G: $it\n") }
+            sb.toString()
+        }
+    }
+
     override fun toString(): String {
         return "DecodedQuestion(id=$id, answer=$answer, mediaType=$mediaType, optionA=$optionA, optionB=$optionB, optionC=$optionC, optionD=$optionD, optionE=$optionE, optionF=$optionF, optionG=$optionG, optionH=$optionH, optionType=$optionType, questionId=$questionId, chapterId=$chapterId, label=$label, mediaKey=$mediaKey, difficulty=$difficulty, wrongRate=$wrongRate, M=$M, sort=$sort, supreme=$supreme, conciseExplain=$conciseExplain, keywords=$keywords, assuredKeywords=$assuredKeywords, illiteracyKeywords=$illiteracyKeywords, knackKeyword=$knackKeyword, knackImgUrl=$knackImgUrl, knackVoiceTxt=$knackVoiceTxt, question=$question, explain=$explain, illiteracyExplain=$illiteracyExplain, knackDetail=$knackDetail)"
     }
