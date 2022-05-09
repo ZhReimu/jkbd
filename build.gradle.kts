@@ -25,7 +25,7 @@ dependencies {
     implementation("org.springframework:spring-core:5.3.19")
     implementation("org.springframework:spring-jdbc:5.3.19")
 
-    implementation("org.apache.logging.log4j:log4j-api:2.17.0")
+    implementation("org.apache.logging.log4j:log4j-api:2.17.2")
     implementation("org.apache.logging.log4j:log4j-core:2.17.2")
     implementation("org.apache.logging.log4j:log4j-slf4j-impl:2.17.2")
     implementation("commons-beanutils:commons-beanutils:1.9.4")
