@@ -26,7 +26,8 @@ public class UI extends JFrame implements ActionListener {
 
     private final XTableCellRenderer renderer = new XTableCellRenderer();
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private static final Logger logger = LoggerFactory.getLogger(UI.class);
+    private final JPanel btnPanel = new JPanel();
 
     private static final String PREV = "上一题";
 
@@ -46,7 +47,7 @@ public class UI extends JFrame implements ActionListener {
 
     public UI(List<DecodedQuestion> questions) throws Throwable {
         this.questions = questions;
-        logger.debug("初始化题目: {}, {}", questions.size(), questions);
+        logger.debug("初始化题目: {}", questions.size());
         img = ImageIO.read(new File("1.jpg"));
         initComponents();
         questionLabel.setText(getQuestion(0));
@@ -57,7 +58,7 @@ public class UI extends JFrame implements ActionListener {
         setTitle("驾考宝典");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 600, 600);
-
+        // 菜单栏
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
         JMenu mnNewMenu = new JMenu("菜单");
@@ -65,34 +66,24 @@ public class UI extends JFrame implements ActionListener {
         JMenuItem menuAbout = new JMenuItem("About");
         menuAbout.addActionListener(this);
         mnNewMenu.add(menuAbout);
-
-
+        // 主面板
         JPanel contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(new BorderLayout(0, 0));
-//        contentPane.add(questionLabel, BorderLayout.CENTER);
-
         // 右下角按钮区域
         JPanel panel = new JPanel();
         contentPane.add(panel, BorderLayout.SOUTH);
         panel.setLayout(new BorderLayout(0, 0));
-        JPanel panel_1 = new JPanel();
-        panel.add(panel_1, BorderLayout.EAST);
-        panel_1.setLayout(new GridLayout(1, 0, 0, 0));
-        // 上一题 按钮
-        JButton btnNewButton = new JButton(PREV);
-        btnNewButton.addActionListener(this);
-        panel_1.add(btnNewButton);
-        // 下一题 按钮
-        JButton btnNewButton_1 = new JButton(NEXT);
-        btnNewButton_1.addActionListener(this);
-        panel_1.add(btnNewButton_1);
-        // 交卷 按钮
-        JButton btnNewButton_3 = new JButton(SUBMIT);
-        btnNewButton_3.addActionListener(this);
-        panel_1.add(btnNewButton_3);
 
+        panel.add(btnPanel, BorderLayout.EAST);
+        btnPanel.setLayout(new GridLayout(1, 0, 0, 0));
+        // 上一题 按钮
+        addButton(PREV);
+        // 下一题 按钮
+        addButton(NEXT);
+        // 交卷 按钮
+        addButton(SUBMIT);
         // 右边做题状况区域
         JPanel panel_2 = new JPanel();
         contentPane.add(panel_2, BorderLayout.EAST);
@@ -103,12 +94,10 @@ public class UI extends JFrame implements ActionListener {
             it.setCellRenderer(renderer);
         });
         panel_2.add(table);
-
         // 左边 题干, 图片 区域
         JPanel panel_3 = new JPanel();
         contentPane.add(panel_3, BorderLayout.CENTER);
         panel_3.setLayout(new GridLayout(2, 1, 0, 40));
-
         // 题干区域
         panel_3.add(questionLabel);
         // 图片区域
@@ -148,7 +137,21 @@ public class UI extends JFrame implements ActionListener {
     }
 
     private String getQuestion(int position) {
-        return questions.get(position).getStringQuestion(position + 1);
+        DecodedQuestion question = questions.get(position);
+        int optionNum = question.getOptionCount();
+        while (optionNum-- > 0) {
+            addButton(String.valueOf((char) ('A' + optionNum)), 0);
+        }
+        return question.getStringQuestion(position + 1);
     }
 
+    private void addButton(String action, int index) {
+        JButton button = new JButton(action);
+        button.addActionListener(this);
+        btnPanel.add(button, index);
+    }
+
+    private void addButton(String action) {
+        addButton(action, -1);
+    }
 }

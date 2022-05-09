@@ -2,6 +2,7 @@ package com.mrx.jkbd.entity
 
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
+import kotlin.reflect.full.memberProperties
 
 /**
  * @author Mr.X
@@ -61,6 +62,19 @@ class DecodedQuestion {
             optionG?.let { if (it.isNotEmpty()) sb.append("G: $it\n") }
             sb.toString()
         }
+    }
+
+    fun getOptionCount(): Int {
+        var count = 0
+        this::class.memberProperties.forEach {
+            if (it.name.contains("option")) {
+                val res = it.getter.call(this).toString()
+                if (res.isNotEmpty() && res != "null") {
+                    count++
+                }
+            }
+        }
+        return count - 1
     }
 
     override fun toString(): String {
