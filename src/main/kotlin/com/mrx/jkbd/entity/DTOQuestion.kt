@@ -7,7 +7,7 @@ package com.mrx.jkbd.entity
 class DTOQuestion : BaseQuestion() {
 
     fun getStringQuestion(id: Int): String {
-        val decodedQuestion = getDecodedField(this::question)
+        val decodedQuestion = decode(this.question)
         val sb = StringBuilder("第 $id 题: $decodedQuestion\n")
         sb.append("A: $optionA\n").append("B: $optionB\n")
         // optionType 0 为 判断

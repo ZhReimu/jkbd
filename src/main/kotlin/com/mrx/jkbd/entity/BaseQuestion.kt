@@ -5,7 +5,6 @@ import org.apache.commons.beanutils.BeanUtils
 import java.lang.reflect.Field
 import java.nio.charset.StandardCharsets
 import kotlin.reflect.KClass
-import kotlin.reflect.KMutableProperty
 import kotlin.reflect.full.superclasses
 import kotlin.reflect.jvm.kotlinProperty
 
@@ -47,10 +46,6 @@ abstract class BaseQuestion {
         return Char((answer / 16 + 64).toUShort())
     }
 
-    fun getDecodedField(field: KMutableProperty<ByteArray?>): String {
-        return decode(field.getter.call())
-    }
-
     inline fun <reified T : BaseQuestion> toOtherQuestion(): T = T::class.java.getConstructor().newInstance().apply {
         BeanUtils.copyProperties(this, this@BaseQuestion)
     }
@@ -84,9 +79,9 @@ abstract class BaseQuestion {
         return sb.toString()
     }
 
-    protected fun decode(encBytes: ByteArray?): String {
-        if (encBytes == null) {
-            return "null"
+    protected fun decode(encBytes: ByteArray?): String? {
+        if (encBytes == null || encBytes.isEmpty()) {
+            return null
         }
         val key = "_jiakaobaodian.com_".toByteArray(StandardCharsets.UTF_8)
         for (i in encBytes.indices) {

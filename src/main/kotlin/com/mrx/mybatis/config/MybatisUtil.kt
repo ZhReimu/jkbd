@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.core.incrementer.DefaultIdentifierGenerator
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector
 import com.baomidou.mybatisplus.core.mapper.BaseMapper
 import com.baomidou.mybatisplus.core.toolkit.GlobalConfigUtils
-import org.apache.ibatis.logging.stdout.StdOutImpl
 import org.apache.ibatis.session.SqlSessionFactory
 import org.apache.ibatis.session.SqlSessionFactoryBuilder
 import java.io.InputStream
@@ -33,7 +32,6 @@ object MybatisUtil {
     fun <T> getMapperPlus(clazz: Class<T>): T {
         val configuration = MybatisConfiguration(decEnv.configuration.environment).apply {
             addMapper(clazz)
-            logImpl = StdOutImpl::class.java
         }
         with(GlobalConfig()) {
             sqlInjector = DefaultSqlInjector()

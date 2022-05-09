@@ -56,6 +56,7 @@ class Question : BaseQuestion() {
         knackVoiceTxt = decode(that.knackVoiceTxt)
         question = decode(that.question)
         explain = decode(that.explain)
+        answer = getDecodedAnswer()
     }
 
 }

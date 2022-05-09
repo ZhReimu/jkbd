@@ -13,7 +13,7 @@ class DecodedQuestion {
 
     @TableId("_id")
     var id: Long? = null
-    var answer: Int = 0
+    var answer: Char? = null
     var mediaType: Int? = null
     var optionA: String? = null
     var optionB: String? = null
@@ -29,10 +29,10 @@ class DecodedQuestion {
     var label: String? = null
     var mediaKey: String? = null
     var difficulty: Long? = null
-    var wrongRate = 0.0
-    var M: Long = 0
-    var sort: Long = 0
-    var supreme: Long = 0
+    var wrongRate: Double? = null
+    var M: Long? = null
+    var sort: Long? = null
+    var supreme: Long? = null
 
 
     var conciseExplain: String? = null
