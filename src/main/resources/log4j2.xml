@@ -3,7 +3,7 @@
 
     <appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] %-5level %class{36} %L %M - %msg%xEx%n"/>
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %-5level %c{1.} - %msg%xEx%n"/>
         </Console>
     </appenders>
 
@@ -15,6 +15,7 @@
         <logger name="org.apache.ibatis.transaction" level="WARN"/>
         <logger name="org.apache.ibatis.logging.LogFactory" level="WARN"/>
         <logger name="org.apache.ibatis.logging.jdbc.BaseJdbcLogger" level="DEBUG"/>
+        <logger name="com.mrx.jkbd.ui.XTableCellRenderer" level="INFO"/>
     </loggers>
 
 </configuration>
