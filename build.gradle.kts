@@ -19,7 +19,12 @@ repositories {
 dependencies {
     implementation("org.xerial:sqlite-jdbc:3.36.0.3")
     implementation("com.alibaba:druid:1.2.9")
-    implementation("org.mybatis:mybatis:3.5.9")
+    //    implementation("org.mybatis:mybatis:3.5.9")
+    implementation("com.baomidou:mybatis-plus-core:3.5.1")
+    implementation("com.baomidou:mybatis-plus-extension:3.5.1")
+    implementation("org.springframework:spring-core:5.3.19")
+    implementation("org.springframework:spring-jdbc:5.3.19")
+
     implementation("org.apache.logging.log4j:log4j-api:2.17.0")
     implementation("org.apache.logging.log4j:log4j-core:2.17.2")
     implementation("org.apache.logging.log4j:log4j-slf4j-impl:2.17.2")

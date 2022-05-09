@@ -82,7 +82,7 @@ abstract class BaseQuestion {
         return sb.toString()
     }
 
-    private fun decode(paramArrayOfByte: ByteArray?): String {
+    protected fun decode(paramArrayOfByte: ByteArray?): String {
         if (paramArrayOfByte == null) {
             return "null"
         }
@@ -93,7 +93,7 @@ abstract class BaseQuestion {
         return String(paramArrayOfByte, StandardCharsets.UTF_8)
     }
 
-    private fun getDeclaredFields(clazz: KClass<*>, depth: Int = 1): List<Field> {
+    protected fun getDeclaredFields(clazz: KClass<*>, depth: Int = 1): List<Field> {
         if (depth == 0) {
             return clazz.java.declaredFields.toList()
         }

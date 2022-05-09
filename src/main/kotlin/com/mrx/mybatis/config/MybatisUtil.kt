@@ -1,5 +1,13 @@
 package com.mrx.mybatis.config
 
+import com.baomidou.mybatisplus.core.MybatisConfiguration
+import com.baomidou.mybatisplus.core.MybatisSqlSessionFactoryBuilder
+import com.baomidou.mybatisplus.core.config.GlobalConfig
+import com.baomidou.mybatisplus.core.incrementer.DefaultIdentifierGenerator
+import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector
+import com.baomidou.mybatisplus.core.mapper.BaseMapper
+import com.baomidou.mybatisplus.core.toolkit.GlobalConfigUtils
+import org.apache.ibatis.logging.stdout.StdOutImpl
 import org.apache.ibatis.session.SqlSessionFactory
 import org.apache.ibatis.session.SqlSessionFactoryBuilder
 import java.io.InputStream
@@ -10,14 +18,31 @@ import java.io.InputStream
  */
 object MybatisUtil {
 
-    private val ins: InputStream = this::class.java.getResourceAsStream("/mybatis-config.xml")!!
+    private val insDev: InputStream = this::class.java.getResourceAsStream("/mybatis-config.xml")!!
 
-    //定义默认 environment
-    private val env: SqlSessionFactory = SqlSessionFactoryBuilder().build(ins)
+    private val insEnv: InputStream = this::class.java.getResourceAsStream("/mybatis-config.xml")!!
+
+    private val devEnv: SqlSessionFactory = SqlSessionFactoryBuilder().build(insDev, "dev")
+
+    private val decEnv: SqlSessionFactory = SqlSessionFactoryBuilder().build(insEnv, "dec")
 
     fun <T> getMapper(mapperClazz: Class<T>): T {
+        return devEnv.configuration.getMapper(mapperClazz, devEnv.openSession(true))
+    }
 
-        return env.configuration.getMapper(mapperClazz, env.openSession())
+    fun <T> getMapperPlus(clazz: Class<T>): T {
+        val configuration = MybatisConfiguration(decEnv.configuration.environment).apply {
+            addMapper(clazz)
+            logImpl = StdOutImpl::class.java
+        }
+        with(GlobalConfig()) {
+            sqlInjector = DefaultSqlInjector()
+            identifierGenerator = DefaultIdentifierGenerator()
+            superMapperClass = BaseMapper::class.java
+            GlobalConfigUtils.setGlobalConfig(configuration, this)
+        }
+        val session = MybatisSqlSessionFactoryBuilder().build(configuration)
+        return session.openSession(true).getMapper(clazz)
     }
 
 }

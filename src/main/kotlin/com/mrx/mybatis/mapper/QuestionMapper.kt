@@ -24,4 +24,8 @@ interface QuestionMapper {
     @ResultMap("com.mrx.mybatis.mapper.QuestionMapper.dtoQuestionMap")
     fun getQuestionsByRange(@Param("start") start: Long, @Param("end") end: Long): List<DTOQuestion>
 
+    @Select("SELECT *FROM t_question")
+    @ResultMap("com.mrx.mybatis.mapper.QuestionMapper.dtoQuestionMap")
+    fun getAllQuestions(): List<DTOQuestion>
+
 }

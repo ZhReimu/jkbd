@@ -11,6 +11,7 @@
         <root level="DEBUG">
             <appender-ref ref="Console"/>
         </root>
+        <logger name="com.mrx.mybatis.mapper.DecodeQuestionMapper" level="WARN"/>
         <logger name="com.alibaba.druid.pool.DruidDataSource" level="WARN"/>
         <logger name="org.apache.ibatis.transaction" level="WARN"/>
         <logger name="org.apache.ibatis.logging.LogFactory" level="WARN"/>
