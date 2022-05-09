@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class XTableCellRenderer extends DefaultTableCellRenderer {
 
-    private static final BoundedMapQueue<Integer, Component> queue = new BoundedMapQueue<>(11 * 11);
+    private final BoundedMapQueue<Integer, Component> queue = new BoundedMapQueue<>(11 * 11);
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {

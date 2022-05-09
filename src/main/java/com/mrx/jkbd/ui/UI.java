@@ -23,13 +23,16 @@ public class UI extends JFrame implements ActionListener {
 
     private final XTableModel tableModel = new XTableModel();
 
+    private final XTableCellRenderer renderer = new XTableCellRenderer();
+
     private int col = 1;
 
     private int row = 1;
 
     public UI() throws Throwable {
+        setLocationRelativeTo(null);
         BufferedImage img = ImageIO.read(new File("1.jpg"));
-        setTitle("Test");
+        setTitle("驾考宝典");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 600, 600);
 
@@ -78,7 +81,7 @@ public class UI extends JFrame implements ActionListener {
         table.setModel(tableModel);
         table.getColumnModel().getColumns().asIterator().forEachRemaining(it -> {
             it.setPreferredWidth(20);
-            it.setCellRenderer(new XTableCellRenderer());
+            it.setCellRenderer(renderer);
         });
         panel_2.add(table);
 
@@ -99,6 +102,10 @@ public class UI extends JFrame implements ActionListener {
         if (col > 10) {
             row++;
             col = 1;
+        }
+        if (row > 10) {
+            JOptionPane.showMessageDialog(this, "测试", "提示", JOptionPane.INFORMATION_MESSAGE);
+            return;
         }
         tableModel.setStatusOnNum(new Random().nextBoolean(), row, col++);
     }
