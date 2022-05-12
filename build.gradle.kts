@@ -30,6 +30,10 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-slf4j-impl:2.17.2")
     implementation("commons-beanutils:commons-beanutils:1.9.4")
 
+    implementation("com.formdev:flatlaf:2.2")
+    implementation("com.formdev:flatlaf-extras:2.2")
+    implementation("com.formdev:flatlaf-intellij-themes:2.2")
+
     testImplementation(kotlin("test"))
     implementation(kotlin("reflect"))
 }

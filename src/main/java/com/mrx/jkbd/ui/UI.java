@@ -161,6 +161,7 @@ public class UI extends JFrame implements ActionListener {
 
     private String getQuestion(int position) {
         question = questions.get(position);
+        logger.debug("question: {}", question);
         removeOptions();
         addOptions(question.getOptionCount());
         return question.getStringQuestion(position + 1);

@@ -1,5 +1,6 @@
 package com.mrx
 
+import com.formdev.flatlaf.intellijthemes.FlatDarkFlatIJTheme
 import com.mrx.jkbd.entity.DecodedQuestion
 import com.mrx.jkbd.ui.UI
 import com.mrx.mybatis.config.MybatisUtil
@@ -26,6 +27,7 @@ object Main {
         logger.debug("准备初始化试题")
         val questions = getRandomQuestions()
         logger.debug("初始化题目完成!")
+        FlatDarkFlatIJTheme.setup()
         EventQueue.invokeLater {
             UI(questions).isVisible = true
         }
